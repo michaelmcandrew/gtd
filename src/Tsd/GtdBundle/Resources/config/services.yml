@@ -1,0 +1,7 @@
+parameters:
+#    tsd_gtd.example.class: Tsd\GtdBundle\Example
+
+services:
+#    tsd_gtd.example:
+#        class: %tsd_gtd.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

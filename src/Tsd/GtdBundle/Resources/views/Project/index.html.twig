@@ -1,0 +1,19 @@
+{% extends "TsdGtdBundle::base.html.twig" %}
+{% block content %}
+<h1>Projects</h1>
+<div class="projects">
+{% for project in projects %}
+    <div class="project">
+        <a href="{{ path('tsd_gtd_project_view', {'id': project.id}) }}">{{ project.name }}</a> ({{project.created|date}})
+        <a href="{{ path('tsd_gtd_project_edit', {'id': project.id}) }}">Edit</a>
+        {% if project.incompleteActions is empty %}
+        No next action.
+        <a href="{{ path('tsd_gtd_project_markdone', {'id': project.id}) }}">Mark as done</a>
+        <a href="{{ path('tsd_gtd_action_add', {'project': project.id}) }}">Add action</a>
+        {% else %}
+        {{ project.incompleteActions|length }} actions
+        {% endif %}
+    </div>
+{% endfor %}
+</div>
+{% endblock %}

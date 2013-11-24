@@ -1,0 +1,6 @@
+home:
+    path: /
+    defaults: { _controller: TsdGtdBundle:Action:index }
+gtd:
+    resource: "@TsdGtdBundle/Controller"
+    type: annotation

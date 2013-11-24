@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>{% block title %}GTD{% endblock %}</title>
+</head>
+{% stylesheets '@TsdGtdBundle/Resources/public/css/*' filter='cssrewrite' %}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
+<body>
+<nav class='cf'><div id="logo">GTD</div>{{ knp_menu_render('TsdGtdBundle:Builder:mainMenu') }}</nav>
+
+{% for type, messages in app.session.flashbag.all() %}
+    {% for message in messages %}
+        <div class="flash flash-{{ type }}">
+        {{ message|raw }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
+<div id="content">
+{% block content %}
+{% endblock %}
+</div>
+<div id="footer">
+{% block footer %}
+{% endblock %}
+</div>
+</body>
+</html>

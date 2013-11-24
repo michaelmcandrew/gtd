@@ -1,0 +1,12 @@
+{% extends "TsdGtdBundle::base.html.twig" %}
+{% block content %}
+<h1>Actions</h1>
+{% for action in actions %}
+<div class="actions">
+    <div class="action" {{action.id}}">
+        <a href="{{ path('tsd_gtd_action_view', {'id': action.id}) }}">{{ action.description }}</a> Project: <a href="{{ path('tsd_gtd_project_view', {'id': action.project.id}) }}">{{ action.project.name }}</a>, Created: {{action.created|date}}
+        <a href="{{ path('tsd_gtd_action_edit', {'id': action.id}) }}">Edit</a>
+        <a href="{{ path('tsd_gtd_action_markdone', {'id': action.id}) }}">Mark as done</a>
+    </div>
+</div>
+{% endfor %}{% endblock %}

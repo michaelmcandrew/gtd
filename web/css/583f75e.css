@@ -1,0 +1,47 @@
+body{
+    margin:0;
+}
+
+nav {
+    margin:0;
+    background-color: grey;
+}
+
+nav ul {
+    margin: 0;
+    list-style: none;
+    padding: 0px;
+}
+
+div#logo, nav li {
+    float: left;
+    padding: 10px 10px;
+    background-color: silver;
+}
+
+nav li a {
+}
+
+.projects .project,
+.actions .action {
+    padding:5px;
+}
+.flash{
+    padding: 5px;
+    font-style:italic;
+    margin: 5px;
+}
+.flash-warning{
+    border: 5px solid red;
+}
+
+.flash-notice{
+    border: 5px solid green;
+}
+
+.cf:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
