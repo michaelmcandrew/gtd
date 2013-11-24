@@ -4,15 +4,15 @@
 <div class="projects">
 {% for project in projects %}
     <div class="project">
-        <a href="{{ path('tsd_gtd_project_view', {'id': project.id}) }}">{{ project.name }}</a> ({{project.created|date}})
+        <a href="{{ path('tsd_gtd_project_view', {'id': project.id}) }}">{{ project.name }}</a> {{project.created|date}}
         <a href="{{ path('tsd_gtd_project_edit', {'id': project.id}) }}">Edit</a>
-        {% if project.incompleteActions is empty %}
-        No next action.
+        {% if project.actions is empty %}
+        No actions
         <a href="{{ path('tsd_gtd_project_markdone', {'id': project.id}) }}">Mark as done</a>
-        <a href="{{ path('tsd_gtd_action_add', {'project': project.id}) }}">Add action</a>
         {% else %}
-        {{ project.incompleteActions|length }} actions
+        {% if project.actions|length == 1 %} 1 action {% else %} {{ project.actions|length }} actions {% endif %}
         {% endif %}
+        <a href="{{ path('tsd_gtd_action_add', {'project': project.id}) }}">Add action</a>
     </div>
 {% endfor %}
 </div>

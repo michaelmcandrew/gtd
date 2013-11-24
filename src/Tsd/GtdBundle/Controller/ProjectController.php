@@ -22,23 +22,29 @@ class ProjectController extends Controller{
      * @Template()
      */
     public function indexAction(Request $request){
-        $em = $this->getDoctrine()->getManager();
-        if($timeframe = $em->getRepository('TsdGtdBundle:Timeframe')->findOneByName($request->get('timeframe'))){
-            $where['timeframe'] = $timeframe->getId();
-        }else{
-            $where['timeframe'] = $em->getRepository('TsdGtdBundle:Timeframe')->findOneByName('Current')->getId();
-        }
-        if($request->get('completed')){//work out a neat way of doing this. We probably want to be able to display incomplete by default (current behaviour) but maybe want to show all as well
-        }else{
-            $where['completed'] = null;
-        }
-        $projects = $em->getRepository('TsdGtdBundle:Project')->findBy($where);
 
-        foreach($projects as $project){
-            $project->incompleteActions = $em
-                ->getRepository('TsdGtdBundle:Action')
-                ->findIncompleteActions($project);
+        $em = $this->getdoctrine()->getmanager();
+        $qb = $em->createQueryBuilder();
+        $qb->select('p', 'a')
+            ->from('TsdGtdBundle:Project', 'p')
+            ->leftJoin('p.actions', 'a')
+            ->andwhere('p.timeframe = :timeframe')
+            ->andwhere('p.completed IS NULL');
+
+        //Filter by timeframe TODO: Try and make this more concise?
+        if($timeframe = $em->getRepository('TsdGtdBundle:Timeframe')->findOneByName($request->get('timeframe'))){
+            $qb->setParameter('timeframe', $timeframe->getId());
+        }else{
+            $qb->setParameter('timeframe', $em->getRepository('TsdGtdBundle:Timeframe')->findOneByName('Current')->getId());
         }
+
+        // TODO Once we know how we want to filter / view completed projects, then add this filter.  Might be as simple as status = incomplete,complete,all for now.
+        // if($request->get('completed')){//work out a neat way of doing this. We probably want to be able to display incomplete by default (current behaviour) but maybe want to show all as well
+        // }else{
+        //     $where['completed'] = null;
+        // }
+        // $projects = $em->getRepository('TsdGtdBundle:Project')->findBy($where);
+        $projects = $qb->getQuery()->getResult();
         return array('projects' => $projects);
     }
 
@@ -49,7 +55,7 @@ class ProjectController extends Controller{
     public function addAction(Request $request){
         $project = new Project();
         $form = $this->createForm(new ProjectType, $project);
-        
+
         $form->handleRequest($request);
 
         if($form->isValid()){
@@ -66,9 +72,15 @@ class ProjectController extends Controller{
      */
     public function viewAction(Request $request, $id){
         $em = $this->getdoctrine()->getmanager();
-        $project = $em->find('TsdGtdBundle:Project', $id);
-        $actions = $em->getRepository('TsdGtdBundle:Action')->findIncompleteActions($project);
-        return array('project' => $project, 'actions' => $actions);
+        $qb = $em->createQueryBuilder();
+        $qb->select('p', 'a')
+            ->from('TsdGtdBundle:Project', 'p')
+            ->leftJoin('p.actions', 'a')
+            ->andwhere('p.id = :id')
+            ->andwhere('a.completed IS NULL')
+            ->setParameter('id', $id);
+        $project = $qb->getQuery()->getSingleResult();
+        return array('project' => $project);
     }
     /**
      * @route("/edit/{id}")
