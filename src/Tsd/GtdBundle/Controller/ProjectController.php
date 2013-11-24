@@ -22,14 +22,18 @@ class ProjectController extends Controller{
      * @Template()
      */
     public function indexAction(Request $request){
-        $repository = $this->getDoctrine()->getRepository('TsdGtdBundle:Project');
-        if($request->get('show')=='all'){
-            $repository->findAll();
-        }else{
-            $projects = $repository->findByCompleted(null);
-        }
-
         $em = $this->getDoctrine()->getManager();
+        if($timeframe = $em->getRepository('TsdGtdBundle:Timeframe')->findOneByName($request->get('timeframe'))){
+            $where['timeframe'] = $timeframe->getId();
+        }else{
+            $where['timeframe'] = $em->getRepository('TsdGtdBundle:Timeframe')->findOneByName('Current')->getId();
+        }
+        if($request->get('completed')){//work out a neat way of doing this. We probably want to be able to display incomplete by default (current behaviour) but maybe want to show all as well
+        }else{
+            $where['completed'] = null;
+        }
+        $projects = $em->getRepository('TsdGtdBundle:Project')->findBy($where);
+
         foreach($projects as $project){
             $project->incompleteActions = $em
                 ->getRepository('TsdGtdBundle:Action')
