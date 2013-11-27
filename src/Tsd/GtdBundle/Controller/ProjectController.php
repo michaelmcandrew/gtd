@@ -27,9 +27,10 @@ class ProjectController extends Controller{
         $qb = $em->createQueryBuilder();
         $qb->select('p', 'a')
             ->from('TsdGtdBundle:Project', 'p')
-            ->leftJoin('p.actions', 'a')
+            ->leftJoin('p.actions', 'a', 'WITH', 'a.completed IS NULL')
             ->andwhere('p.timeframe = :timeframe')
-            ->andwhere('p.completed IS NULL');
+            ->andwhere('p.completed IS NULL')
+            ;
 
         //Filter by timeframe TODO: Try and make this more concise?
         if($timeframe = $em->getRepository('TsdGtdBundle:Timeframe')->findOneByName($request->get('timeframe'))){

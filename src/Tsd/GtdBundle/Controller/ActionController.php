@@ -10,7 +10,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Tsd\GtdBundle\Entity\Action;
-use Tsd\GtdBundle\Entity\Project;
 use Tsd\GtdBundle\Form\Type\ActionType;
 /**
  * @Route("/actions")
@@ -19,7 +18,6 @@ use Tsd\GtdBundle\Form\Type\ActionType;
 class ActionController extends Controller{
 
     /**
-     * @Route("/")
      * @Route("")
      * @Template()
      */

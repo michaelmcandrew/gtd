@@ -48,7 +48,12 @@ class Action
      * @ORM\ManyToOne(targetEntity="Project", inversedBy="actions")
      * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
      */
-    protected $project;
+    private $project;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Context", inversedBy="actions")
+     */
+    private $contexts;
 
     /**
      * Get id
@@ -157,5 +162,45 @@ class Action
     public function getProject()
     {
         return $this->project;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->contexts = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add contexts
+     *
+     * @param \Tsd\GtdBundle\Entity\Context $contexts
+     * @return Action
+     */
+    public function addContext(\Tsd\GtdBundle\Entity\Context $contexts)
+    {
+        $this->contexts[] = $contexts;
+    
+        return $this;
+    }
+
+    /**
+     * Remove contexts
+     *
+     * @param \Tsd\GtdBundle\Entity\Context $contexts
+     */
+    public function removeContext(\Tsd\GtdBundle\Entity\Context $contexts)
+    {
+        $this->contexts->removeElement($contexts);
+    }
+
+    /**
+     * Get contexts
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getContexts()
+    {
+        return $this->contexts;
     }
 }

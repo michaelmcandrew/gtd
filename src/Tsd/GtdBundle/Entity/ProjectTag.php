@@ -30,6 +30,11 @@ class ProjectTag
 
 
     /**
+     * @ORM\ManyToMany(targetEntity="Project", mappedBy="projectTags")
+     **/
+    private $users;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -59,6 +64,50 @@ class ProjectTag
      */
     public function getName()
     {
+        return $this->name;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add users
+     *
+     * @param \Tsd\GtdBundle\Entity\Project $users
+     * @return ProjectTag
+     */
+    public function addUser(\Tsd\GtdBundle\Entity\Project $users)
+    {
+        $this->users[] = $users;
+    
+        return $this;
+    }
+
+    /**
+     * Remove users
+     *
+     * @param \Tsd\GtdBundle\Entity\Project $users
+     */
+    public function removeUser(\Tsd\GtdBundle\Entity\Project $users)
+    {
+        $this->users->removeElement($users);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    public function __toString(){
         return $this->name;
     }
 }

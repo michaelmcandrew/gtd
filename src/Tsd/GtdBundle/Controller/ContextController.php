@@ -8,49 +8,34 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use Tsd\GtdBundle\Entity\Stuff;
-use Tsd\GtdBundle\Form\Type\StuffType;
+use Tsd\GtdBundle\Entity\Context;
+use Tsd\GtdBundle\Form\Type\ContextType;
 
     /**
-     * @Route("/stuff")
+     * @Route("/contexts")
      */
-class StuffController extends Controller
+class ContextController extends Controller
 {
-    /**
-     * @Route("/process")
-     * @Template()
-     */
-    public function processAction()
-    {
-        return array();
-    }
 
     /**
      * @Route("/add")
      * @Template()
      */
     public function addAction(Request $request){
-        $stuff = new Stuff();
-        $form = $this->createForm(new StuffType, $stuff);
+        $context = new Context();
+        $form = $this->createForm(new ContextType, $context);
 
         $form->handleRequest($request);
 
         if($form->isValid()){
             $em = $this->getDoctrine()->getManager();
-            $em->persist($stuff);
+            $em->persist($context);
             $em->flush();
-            return $this->redirect($this->generateUrl('tsd_gtd_stuff_index'));
+            return $this->redirect($this->generateUrl('tsd_gtd_action_index'));
         }
         return array('form' => $form->createView());
     }
 
-    /**
-     * @Route("/Edit")
-     * @Template()
-     */
-    public function EditAction()
-    {
-    }
 
     /**
      * @Route("")
@@ -58,8 +43,8 @@ class StuffController extends Controller
      */
     public function indexAction()
     {
-        $stuffs = $this->getDoctrine()->getRepository('TsdGtdBundle:Stuff')->findAll();
-        return array('stuffs' => $stuffs);
+        $contexts = $this->getDoctrine()->getRepository('TsdGtdBundle:Context')->findAll();
+        return array('contexts' => $contexts);
     }
 
 }

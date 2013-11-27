@@ -69,4 +69,44 @@ class Timeframe
     public function __toString(){
         return $this->name;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->projects = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add projects
+     *
+     * @param \Tsd\GtdBundle\Entity\Project $projects
+     * @return Timeframe
+     */
+    public function addProject(\Tsd\GtdBundle\Entity\Project $projects)
+    {
+        $this->projects[] = $projects;
+    
+        return $this;
+    }
+
+    /**
+     * Remove projects
+     *
+     * @param \Tsd\GtdBundle\Entity\Project $projects
+     */
+    public function removeProject(\Tsd\GtdBundle\Entity\Project $projects)
+    {
+        $this->projects->removeElement($projects);
+    }
+
+    /**
+     * Get projects
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProjects()
+    {
+        return $this->projects;
+    }
 }

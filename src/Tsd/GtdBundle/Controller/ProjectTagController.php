@@ -8,13 +8,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use Tsd\GtdBundle\Entity\Stuff;
-use Tsd\GtdBundle\Form\Type\StuffType;
+use Tsd\GtdBundle\Entity\ProjectTag;
+use Tsd\GtdBundle\Form\Type\ProjectTagType;
 
     /**
-     * @Route("/stuff")
+     * @Route("/projectTag")
      */
-class StuffController extends Controller
+class ProjectTagController extends Controller
 {
     /**
      * @Route("/process")
@@ -30,16 +30,16 @@ class StuffController extends Controller
      * @Template()
      */
     public function addAction(Request $request){
-        $stuff = new Stuff();
-        $form = $this->createForm(new StuffType, $stuff);
+        $projectTag = new ProjectTag();
+        $form = $this->createForm(new ProjectTagType, $projectTag);
 
         $form->handleRequest($request);
 
         if($form->isValid()){
             $em = $this->getDoctrine()->getManager();
-            $em->persist($stuff);
+            $em->persist($projectTag);
             $em->flush();
-            return $this->redirect($this->generateUrl('tsd_gtd_stuff_index'));
+            return $this->redirect($this->generateUrl('tsd_gtd_project_index'));
         }
         return array('form' => $form->createView());
     }
@@ -58,8 +58,8 @@ class StuffController extends Controller
      */
     public function indexAction()
     {
-        $stuffs = $this->getDoctrine()->getRepository('TsdGtdBundle:Stuff')->findAll();
-        return array('stuffs' => $stuffs);
+        $projectTags = $this->getDoctrine()->getRepository('TsdGtdBundle:ProjectTag')->findAll();
+        return array('projectTags' => $projectTags);
     }
 
 }

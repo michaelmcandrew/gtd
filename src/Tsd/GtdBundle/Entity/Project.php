@@ -45,6 +45,11 @@ class Project
     protected $actions;
 
     /**
+     * @ORM\ManyToMany(targetEntity="ProjectTag", inversedBy="projects")
+     **/
+    private $projectTags;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -196,5 +201,38 @@ class Project
     public function getTimeframe()
     {
         return $this->timeframe;
+    }
+
+    /**
+     * Add projectTags
+     *
+     * @param \Tsd\GtdBundle\Entity\ProjectTag $projectTags
+     * @return Project
+     */
+    public function addProjectTag(\Tsd\GtdBundle\Entity\ProjectTag $projectTags)
+    {
+        $this->projectTags[] = $projectTags;
+    
+        return $this;
+    }
+
+    /**
+     * Remove projectTags
+     *
+     * @param \Tsd\GtdBundle\Entity\ProjectTag $projectTags
+     */
+    public function removeProjectTag(\Tsd\GtdBundle\Entity\ProjectTag $projectTags)
+    {
+        $this->projectTags->removeElement($projectTags);
+    }
+
+    /**
+     * Get projectTags
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProjectTags()
+    {
+        return $this->projectTags;
     }
 }

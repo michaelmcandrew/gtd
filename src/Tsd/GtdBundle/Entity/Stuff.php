@@ -28,12 +28,22 @@ class Stuff
      */
     private $description;
 
+    /*
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $processed;
 
     /**
      * Get id
      *
      * @return integer 
      */
+
     public function getId()
     {
         return $this->id;
@@ -48,7 +58,6 @@ class Stuff
     public function setDescription($description)
     {
         $this->description = $description;
-    
         return $this;
     }
 
@@ -60,5 +69,28 @@ class Stuff
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set processed
+     *
+     * @param \DateTime $processed
+     * @return Stuff
+     */
+    public function setProcessed($processed)
+    {
+        $this->processed = $processed;
+    
+        return $this;
+    }
+
+    /**
+     * Get processed
+     *
+     * @return \DateTime 
+     */
+    public function getProcessed()
+    {
+        return $this->processed;
     }
 }

@@ -1,0 +1,10 @@
+{% extends "TsdGtdBundle::base.html.twig" %}
+{% block content %}
+<div class="list">
+{% for stuff in stuffs %}
+    <div class="item">
+        <span class="description">{{ stuff.description }}</span>
+    </div>
+{% endfor %}
+</div>
+{% endblock %}

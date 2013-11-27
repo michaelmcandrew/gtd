@@ -17,6 +17,7 @@ class ActionType extends AbstractType
                     return $er->createQueryBuilder('p')->where('p.completed IS NULL');
                 }
             ))
+            ->add('contexts')
             ->add('save', 'submit');
     }
 
