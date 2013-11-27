@@ -28,10 +28,11 @@ div#logo{
 div#logo, nav li {
     float: left;
     padding: 10px 10px;
+    border-bottom: 4px solid transparent;
 }
 
 nav li.current {
-    background-color:#FCC;
+    border-bottom: 4px solid red;
 }
 
 .list > div{
