@@ -1,6 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
+    - { resource: @TsdGtdBundle/Resources/config/services.yml }
 
 framework:
     #esi:             ~
@@ -25,6 +26,9 @@ framework:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
+    form:
+        resources: ['form_table_layout.html.twig']
+
 
 # Assetic Configuration
 assetic:
