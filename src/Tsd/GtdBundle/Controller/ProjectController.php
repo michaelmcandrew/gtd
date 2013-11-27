@@ -5,6 +5,7 @@ namespace Tsd\GtdBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -46,7 +47,13 @@ class ProjectController extends Controller{
         // }
         // $projects = $em->getRepository('TsdGtdBundle:Project')->findBy($where);
         $projects = $qb->getQuery()->getResult();
-        return array('projects' => $projects);
+
+        $projectTags = $em->getRepository('TsdGtdBundle:ProjectTag')->findAll();
+
+        $session = new Session;
+        $state = $session->set('filters.projectTags', array('tags' => array(1 => false, 2 => true, 3 => true), 'method' => 'and'));
+        $projectTagsState = $session->get('filters.projectTags');
+        return array('projects' => $projects, 'projectTags' => $projectTags, 'projectTagsState' => $projectTagsState );
     }
 
     /**
