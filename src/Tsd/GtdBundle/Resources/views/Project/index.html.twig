@@ -1,6 +1,9 @@
 {% extends "TsdGtdBundle::base.html.twig" %}
 {% block content %}
 <h1>Projects</h1>
+{% from 'TsdGtdBundle::tags.html.twig' import tags as tags %}
+{{ tags(projectTags, projectTagsState) }}
+
 <div class="list">
 {% for project in projects %}
     <div class="item">
