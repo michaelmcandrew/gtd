@@ -1,18 +1,20 @@
 {% extends "TsdGtdBundle::base.html.twig" %}
 {% block content %}
 <h1>Projects</h1>
-<div class="projects">
+<div class="list">
 {% for project in projects %}
-    <div class="project">
-        <a href="{{ path('tsd_gtd_project_view', {'id': project.id}) }}">{{ project.name }}</a> {{project.created|date}}
-        <a href="{{ path('tsd_gtd_project_edit', {'id': project.id}) }}">Edit</a>
-        {% if project.actions is empty %}
-        No actions
-        <a href="{{ path('tsd_gtd_project_markdone', {'id': project.id}) }}">Mark as done</a>
-        {% else %}
-        {% if project.actions|length == 1 %} 1 action {% else %} {{ project.actions|length }} actions {% endif %}
-        {% endif %}
-        <a href="{{ path('tsd_gtd_action_add', {'project': project.id}) }}">Add action</a>
+    <div class="item">
+    {% if project.actions is empty %}
+        <span class="mark-done"><a href="{{ path('tsd_gtd_project_markdone', {'id': project.id}) }}"><i class="fa fa-check"></i></a></span>
+    {% endif %}
+    <span class="view"><a href="{{ path('tsd_gtd_project_view', {'id': project.id}) }}">{{ project.name }}</a> 
+    <span class="edit"><a href="{{ path('tsd_gtd_project_edit', {'id': project.id}) }}"><i class="fa fa-pencil"></i></a></span>
+    <span class="date">{{project.created|date}}</span>
+    {% if project.actions is empty %}
+        <span class="add"><a href="{{ path('tsd_gtd_action_add', {'project': project.id}) }}"><i class="fa fa-plus"></i></a></span>
+    {% else %}
+        <span class="actions">{% if project.actions|length == 1 %} 1 action {% else %} {{ project.actions|length }} actions {% endif %}</span>
+    {% endif %}
     </div>
 {% endfor %}
 </div>
