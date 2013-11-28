@@ -1,8 +1,35 @@
-body{
-    font-size:14px;
-    font-family:Arial;
+.filter{
+    padding:10px;
+    border: 4px solid #DDD;
+    border-bottom: none;
+    background-color: white;
+}
+.filter > span {
+    padding:5px;
+    padding-bottom: 0px;
 }
 
+.off, .on{
+    padding:2px 5px;
+}
+.on{
+    background-color: grey;
+    color: white;
+}
+.on a{
+    color: white;
+}
+
+body{
+    font-size:14px;
+    margin: 0px;
+    font-family:Arial;
+    background-color:#EEF;
+}
+
+h1{
+    margin-bottom: .2em;
+}
 a {
     text-decoration: none;
     color: black;
@@ -12,8 +39,9 @@ a:hover {
 }
 
 nav {
-    border-bottom: 1px solid #DDD;
+    border-bottom: 4px solid #DDD;
     margin-bottom: 20px;
+    background-color: white;
 }
 
 nav ul {
@@ -22,6 +50,9 @@ nav ul {
     padding: 0px;
 }
 
+#content {
+    margin: 10px;
+}
 div#logo{
     font-weight: bold;
 }
@@ -34,15 +65,20 @@ div#logo, nav li {
 nav li.current {
     border-bottom: 4px solid red;
 }
-
+.list {
+    border: 4px solid #DDD;
+    background-color: white;
+}
 .list > div{
     padding:10px;
-    border-top: 1px solid #DDD;
-}
-.list > div:last-child{
     border-bottom: 1px solid #DDD;
 }
-
+.list > div:last-child{
+    border-bottom: none;
+}
+.actions, .date {
+    color: grey;
+}
 .add-action a, .fa-plus{
     color:red;
 }
@@ -50,8 +86,8 @@ nav li.current {
 
 form > table {
     padding: 10px;
-    background: #EEE;
-    border: 1px solid #BBB;
+    background: #FFF;
+    border: 4px solid #DDD;
     display:inline-block;
 }
 
@@ -93,4 +129,4 @@ textarea{
     color:orange;
 }
 
-    
+
