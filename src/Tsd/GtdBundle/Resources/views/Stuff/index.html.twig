@@ -4,6 +4,7 @@
 {% for stuff in stuffs %}
     <div class="item">
         <span class="description">{{ stuff.description }}</span>
+        <span class="date">{{ stuff.created|date }}</span>
     </div>
 {% endfor %}
 </div>
