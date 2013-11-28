@@ -12,7 +12,8 @@ class ProjectType extends AbstractType
             ->add('name')
             ->add('projectTags')
             ->add('timeframe')
-            ->add('save', 'submit');
+            ->add('save', 'submit')
+            ->add('save and new', 'submit');
     }
 
     public function getName()

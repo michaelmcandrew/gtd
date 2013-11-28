@@ -18,7 +18,8 @@ class ActionType extends AbstractType
                 }
             ))
             ->add('contexts')
-            ->add('save', 'submit');
+            ->add('save', 'submit')
+            ->add('save and new', 'submit');
     }
 
     public function getName()
