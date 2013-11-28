@@ -1,8 +1,8 @@
 {% extends "TsdGtdBundle::base.html.twig" %}
 {% block content %}
-<h1>Projects</h1>
-{% from 'TsdGtdBundle::tags.html.twig' import tags as tags %}
-{{ tags(projectTags, projectTagsState) }}
+<h1>Projects<a href="{{ path('tsd_gtd_project_add') }}"> <i class="fa fa-plus"></i></a></h1>
+{% from 'TsdGtdBundle::filter.html.twig' import filter %}
+{{ filter(tags, 'project') }}
 
 <div class="list">
 {% for project in projects %}
@@ -10,7 +10,7 @@
     {% if project.actions is empty %}
         <span class="mark-done"><a href="{{ path('tsd_gtd_project_markdone', {'id': project.id}) }}"><i class="fa fa-check"></i></a></span>
     {% endif %}
-    <span class="view"><a href="{{ path('tsd_gtd_project_view', {'id': project.id}) }}">{{ project.name }}</a> 
+    <span class="view"><a href="{{ path('tsd_gtd_project_view', {'id': project.id}) }}">{{ project.name }}</a></span>
     <span class="edit"><a href="{{ path('tsd_gtd_project_edit', {'id': project.id}) }}"><i class="fa fa-pencil"></i></a></span>
     <span class="date">{{project.created|date}}</span>
     {% if project.actions is empty %}
