@@ -1,3 +1,4 @@
+*.php~
 /web/bundles/
 /web/css/*
 /app/bootstrap.php.cache
