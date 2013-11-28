@@ -1,15 +1,11 @@
 <?php
-
 namespace Tsd\GtdBundle\Controller;
-
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Session\Session;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Tsd\GtdBundle\Entity\Project;
 use Tsd\GtdBundle\Form\Type\ProjectType;
 /**
@@ -23,37 +19,44 @@ class ProjectController extends Controller{
      * @Template()
      */
     public function indexAction(Request $request){
-
         $em = $this->getdoctrine()->getmanager();
         $qb = $em->createQueryBuilder();
         $qb->select('p', 'a')
             ->from('TsdGtdBundle:Project', 'p')
             ->leftJoin('p.actions', 'a', 'WITH', 'a.completed IS NULL')
             ->andwhere('p.timeframe = :timeframe')
-            ->andwhere('p.completed IS NULL')
-            ;
+            ->andwhere('p.completed IS NULL') ;
 
-        //Filter by timeframe TODO: Try and make this more concise?
+        // add context filters
+        $session = New Session;
+        $filter = $session->get('project')['filter'];
+
+        if($filter['method']=='OR'){
+            $orX = $qb->expr()->orX();
+            $qb->join('p.projectTags', 'c');
+            foreach($filter['tags'] as $tag => $on){
+                if($on){
+                    $orX->add( $qb->expr()->orX($qb->expr()->eq('c.id', $tag)));
+                }
+            }
+            $qb->andWhere($orX);
+        }elseif($filter['method']=='AND'){
+            foreach($filter['tags'] as $tag => $on){
+                if($on){
+                    $qb->join('p.projectTags', 'c'.$tag, 'WITH', $qb->expr()->eq('c'.$tag, $tag));
+                }
+            }
+        }
+
         if($timeframe = $em->getRepository('TsdGtdBundle:Timeframe')->findOneByName($request->get('timeframe'))){
             $qb->setParameter('timeframe', $timeframe->getId());
         }else{
             $qb->setParameter('timeframe', $em->getRepository('TsdGtdBundle:Timeframe')->findOneByName('Current')->getId());
         }
-
-        // TODO Once we know how we want to filter / view completed projects, then add this filter.  Might be as simple as status = incomplete,complete,all for now.
-        // if($request->get('completed')){//work out a neat way of doing this. We probably want to be able to display incomplete by default (current behaviour) but maybe want to show all as well
-        // }else{
-        //     $where['completed'] = null;
-        // }
-        // $projects = $em->getRepository('TsdGtdBundle:Project')->findBy($where);
+        echo $qb->getDql();
         $projects = $qb->getQuery()->getResult();
-
-        $projectTags = $em->getRepository('TsdGtdBundle:ProjectTag')->findAll();
-
-        $session = new Session;
-        $state = $session->set('filters.projectTags', array('tags' => array(1 => false, 2 => true, 3 => true), 'method' => 'and'));
-        $projectTagsState = $session->get('filters.projectTags');
-        return array('projects' => $projects, 'projectTags' => $projectTags, 'projectTagsState' => $projectTagsState );
+        $tags = $em->getRepository('TsdGtdBundle:ProjectTag')->findAll();
+        return array('projects' => $projects, 'tags' => $tags);
     }
 
     /**
@@ -70,6 +73,11 @@ class ProjectController extends Controller{
             $em = $this->getDoctrine()->getManager();
             $em->persist($project);
             $em->flush();
+            $link = $this->generateUrl('tsd_gtd_project_view', array('id' => $project->getId()));
+            $this->get('session')->getFlashBag()->add( 'notice', "'<a href='{$link}'>{$project->getName()}</a>' added.");
+            if ($form->get('save and new')->isClicked()) {
+                return $this->redirect($this->generateUrl('tsd_gtd_project_add'));
+            }
             return $this->redirect($this->generateUrl('tsd_gtd_project_index'));
         }
         return array('form' => $form->createView());
@@ -117,7 +125,7 @@ class ProjectController extends Controller{
         $em->persist($project);
         $em->flush();
         $link = $this->generateUrl('tsd_gtd_project_view', array('id' => $project->getId()));
-        $this->get('session')->getFlashBag()->add( 'notice', "'<a href='{$link}'>{$project->getName()}</a>' marked as done");
+        $this->get('session')->getFlashBag()->add( 'notice', "'<a href='{$link}'>{$project->getName()}</a>' marked as done.");
         return $this->redirect($this->generateUrl('tsd_gtd_project_index'));
     }
     /**

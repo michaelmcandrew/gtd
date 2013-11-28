@@ -1,14 +1,11 @@
 <?php
-
 namespace Tsd\GtdBundle\Controller;
-
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Tsd\GtdBundle\Entity\Action;
 use Tsd\GtdBundle\Form\Type\ActionType;
 /**
@@ -26,19 +23,35 @@ class ActionController extends Controller{
         $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
         $qb->select('a')
             ->from('TsdGtdBundle:Action', 'a')
-            ->join('a.project', 'p')
-            ->andwhere('p.timeframe = :timeframe')
+            ->leftjoin('a.project', 'p')
+            ->andwhere('p.timeframe = :timeframe OR p.id IS NULL')
             ->andwhere('a.completed IS NULL')
             ->setParameter('timeframe', $em->getRepository('TsdGtdBundle:Timeframe')->findOneByName('Current')->getId());
 
-        // TODO Once we know how we want to filter / view completed projects, then add this filter.  Might be as simple as status = incomplete,complete,all for now.
-        // if($request->get('completed')){//work out a neat way of doing this. We probably want to be able to display incomplete by default (current behaviour) but maybe want to show all as well
-        // }else{
-        //     $where['completed'] = null;
-        // }
-        // $projects = $em->getRepository('TsdGtdBundle:Project')->findBy($where);
+        // add context filters
+        $session = New Session;
+        $filter = $session->get('action')['filter'];
+
+        if($filter['method']=='OR'){
+            $orX = $qb->expr()->orX();
+            $qb->join('a.contexts', 'c');
+            foreach($filter['tags'] as $tag => $on){
+                if($on){
+                    $orX->add( $qb->expr()->orX($qb->expr()->eq('c.id', $tag)));
+                }
+            }
+            $qb->andWhere($orX);
+        }elseif($filter['method']=='AND'){
+            foreach($filter['tags'] as $tag => $on){
+                if($on){
+                    $qb->join('a.contexts', 'c'.$tag, 'WITH', $qb->expr()->eq('c'.$tag, $tag));
+                }
+            }
+
+        }
         $actions = $qb->getQuery()->getResult();
-        return array('actions' => $actions);
+        $contexts = $em->getRepository('TsdGtdBundle:Context')->findAll();
+        return array('actions' => $actions, 'contexts' => $contexts);
     }
 
     /**
@@ -59,6 +72,11 @@ class ActionController extends Controller{
             $em = $this->getDoctrine()->getManager();
             $em->persist($action);
             $em->flush();
+            $link = $this->generateUrl('tsd_gtd_action_view', array('id' => $action->getId()));
+            $this->get('session')->getFlashBag()->add( 'notice', "'<a href='{$link}'>{$action->getDescription()}</a>' added.");
+            if ($form->get('save and new')->isClicked()) {
+                return $this->redirect($this->generateUrl('tsd_gtd_action_add'));
+            }
             return $this->redirect($this->generateUrl('tsd_gtd_action_index'));
         }
         return array('form' => $form->createView());
@@ -98,7 +116,7 @@ class ActionController extends Controller{
         $em->persist($action);
         $em->flush();
         $link = $this->generateUrl('tsd_gtd_action_view', array('id' => $action->getId()));
-        $this->get('session')->getFlashBag()->add( 'notice', "'<a href='{$link}'>{$action->getDescription()}</a>' marked as done");
+        $this->get('session')->getFlashBag()->add( 'notice', "'<a href='{$link}'>{$action->getDescription()}</a>' marked as done.");
         return $this->redirect($this->generateUrl('tsd_gtd_action_index'));
     }
     /**

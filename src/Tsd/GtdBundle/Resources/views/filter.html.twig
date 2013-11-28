@@ -1,0 +1,25 @@
+{% macro filter(tags, entity) %}
+<div class="filter">
+    <span>Filter</span>
+    <span class="method">
+        {% set f = app.session.get(entity).filter|default({}) %}
+        {# if app.session.project.filter.method == 'OR' #}
+        {% if f.method|default('OR') == 'OR' %}
+        <span class="on">OR</span>
+        <span class="off"><a href="{{path('tsd_gtd_filter_update', {'entity':entity, 'name': 'method', 'value': 'AND'})}}">AND</a></span>
+        {% else %}
+        <span class="off"><a href="{{path('tsd_gtd_filter_update', {'entity':entity, 'name': 'method', 'value': 'OR'})}}">OR</a></span>
+        <span class="on">AND</span>
+        {% endif %}
+    </span>
+    <span class="tags">
+    {% for tag in tags %}
+    {% if f.tags[tag.id]|default(0) == 1 %}
+    <span class="on"><a href="{{path('tsd_gtd_filter_update', {'entity':entity, 'name': ('tags.'~tag.id), 'value': 0})}}">{{ tag.name }}</a></span>
+    {% else %}
+    <span class="off"><a href="{{path('tsd_gtd_filter_update', {'entity':entity, 'name': ('tags.'~tag.id), 'value': 1})}}">{{ tag.name }}</a></span>
+    {% endif %}
+    {% endfor %}
+    </span>
+</div>
+{% endmacro %}

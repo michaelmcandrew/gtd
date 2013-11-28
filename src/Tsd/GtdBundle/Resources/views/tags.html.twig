@@ -1,8 +1,0 @@
-{% macro tags(tags, state) %}
-Filters: AND/OR
-{% for tag in tags %}
-{% if state.tags[tag.id] %}
-{{ tag }}
-{% endif %}
-{% endfor %}
-{% endmacro %}

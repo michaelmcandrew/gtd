@@ -32,7 +32,7 @@ class ProjectTag
     /**
      * @ORM\ManyToMany(targetEntity="Project", mappedBy="projectTags")
      **/
-    private $users;
+    private $projects;
 
     /**
      * Get id
@@ -109,5 +109,38 @@ class ProjectTag
 
     public function __toString(){
         return $this->name;
+    }
+
+    /**
+     * Add projects
+     *
+     * @param \Tsd\GtdBundle\Entity\Project $projects
+     * @return ProjectTag
+     */
+    public function addProject(\Tsd\GtdBundle\Entity\Project $projects)
+    {
+        $this->projects[] = $projects;
+    
+        return $this;
+    }
+
+    /**
+     * Remove projects
+     *
+     * @param \Tsd\GtdBundle\Entity\Project $projects
+     */
+    public function removeProject(\Tsd\GtdBundle\Entity\Project $projects)
+    {
+        $this->projects->removeElement($projects);
+    }
+
+    /**
+     * Get projects
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProjects()
+    {
+        return $this->projects;
     }
 }

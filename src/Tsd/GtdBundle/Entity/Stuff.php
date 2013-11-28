@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class Stuff
 {
@@ -28,8 +29,10 @@ class Stuff
      */
     private $description;
 
-    /*
-     * @ORM\Column(type="datetime")
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="datetime")
      */
     private $created;
 
@@ -92,5 +95,35 @@ class Stuff
     public function getProcessed()
     {
         return $this->processed;
+    }
+    /**
+     * @ORM\PrePersist
+     */
+    public function presetCreated()
+    {
+        $this->created = new \DateTime();
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     * @return Stuff
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+    
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime 
+     */
+    public function getCreated()
+    {
+        return $this->created;
     }
 }
