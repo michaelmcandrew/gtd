@@ -13,7 +13,6 @@ use Tsd\GtdBundle\Form\Type\ProjectType;
  * @Route("/filter")
  */
 
-
 class FilterController extends Controller{
 
     /**
@@ -24,6 +23,9 @@ class FilterController extends Controller{
         $session = New Session;
         if(!$sessionEntity = $session->get($entity)){
             $sessionEntity = array();
+        }
+        if(!count($sessionEntity)){
+            $sessionEntity = $this->initialiseFilter();
         }
         if(strpos($name, '.')){
             list($name, $key) = explode('.', $name);
@@ -37,4 +39,9 @@ class FilterController extends Controller{
         $entity = $session->set($entity, $sessionEntity);
         return $this->redirect($request->headers->get('referer'));
     }
+
+    private function initialiseFilter()
+    {
+        return array('filter' => array('method' => array(), 'tags' => array()));
+    } 
 }
