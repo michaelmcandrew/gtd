@@ -1,6 +1,6 @@
 {% extends "TsdGtdBundle::base.html.twig" %}
 {% block content %}
-<h1>Projects<a href="{{ path('tsd_gtd_project_add') }}"> <i class="fa fa-plus"></i></a></h1>
+<h1>Projects <a href="{{ path('tsd_gtd_project_add') }}"><i class="fa fa-plus"></i></a></h1>
 {% from 'TsdGtdBundle::filter.html.twig' import filter %}
 {{ filter(tags, 'project') }}
 
@@ -12,6 +12,9 @@
     {% endif %}
     <span class="view"><a href="{{ path('tsd_gtd_project_view', {'id': project.id}) }}">{{ project.name }}</a></span>
     <span class="edit"><a href="{{ path('tsd_gtd_project_edit', {'id': project.id}) }}"><i class="fa fa-pencil"></i></a></span>
+    {% for projectTag in project.projectTags %}
+        <span class="on">{{ projectTag.name }}</span>
+    {% endfor %}
     <span class="date">{{project.created|date}}</span>
     {% if project.actions is empty %}
         <span class="add"><a href="{{ path('tsd_gtd_action_add', {'project': project.id}) }}"><i class="fa fa-plus"></i></a></span>

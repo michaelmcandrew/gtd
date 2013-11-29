@@ -6,5 +6,8 @@
     {% if action.project != project|default(null) %}
         <span class="view"><a href="{{ path('tsd_gtd_project_view', {'id': action.project.id}) }}">{{ action.project.name }}</a></span>
     {% endif %}
+    {% for context in action.contexts %}
+        <span class="on">{{ context.name }}</span>
+    {% endfor %}
     <span class="date">{{action.created|date}}</span>
 </div>

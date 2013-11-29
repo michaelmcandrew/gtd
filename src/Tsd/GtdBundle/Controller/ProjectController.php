@@ -53,7 +53,6 @@ class ProjectController extends Controller{
         }else{
             $qb->setParameter('timeframe', $em->getRepository('TsdGtdBundle:Timeframe')->findOneByName('Current')->getId());
         }
-        echo $qb->getDql();
         $projects = $qb->getQuery()->getResult();
         $tags = $em->getRepository('TsdGtdBundle:ProjectTag')->findAll();
         return array('projects' => $projects, 'tags' => $tags);

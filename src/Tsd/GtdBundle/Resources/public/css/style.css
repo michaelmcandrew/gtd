@@ -24,7 +24,7 @@ body{
     font-size:14px;
     margin: 0px;
     font-family:Arial;
-    background-color:#EEF;
+    background-color:#EEE;
 }
 
 h1{
@@ -96,9 +96,13 @@ form td {
 textarea{
     width:500px;
 }
+select[multiple] {
+    height: 170px;
+}
 /* messages */
 .flash{
     padding: 5px;
+    background: #FFF;
     font-style:italic;
     margin: 5px;
 }
