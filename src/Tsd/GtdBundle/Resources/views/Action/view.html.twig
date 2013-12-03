@@ -1,6 +1,6 @@
 {% extends "TsdGtdBundle::base.html.twig" %}
+{% block heading %}{{action.description}}{% endblock %}
 {% block content %}
-<h1>{{action.description}}</h1>
 {% if action.project %}
     <p>Project: <a href="{{ path('tsd_gtd_project_view', {'id': action.project.id}) }}">{{action.project.name}}</a></p>
 {% endif %}
