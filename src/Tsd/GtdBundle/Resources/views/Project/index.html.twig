@@ -1,12 +1,20 @@
 {% extends "TsdGtdBundle::base.html.twig" %}
+{% block heading %}<h1>Projects <a href="{{ path('tsd_gtd_project_add') }}"><i class="fa fa-plus"></i></a></h1>{% endblock %}
 {% block content %}
-<h1>Projects <a href="{{ path('tsd_gtd_project_add') }}"><i class="fa fa-plus"></i></a></h1>
+
 {% from 'TsdGtdBundle::filter.html.twig' import filter %}
 {{ filter(tags, 'project') }}
 
 <div class="list">
 {% for project in projects %}
     <div class="item">
+    <span class="star">
+        {% if project.starred %}
+        <a href="{{ path('tsd_gtd_project_unstar', {'id': project.id}) }}"><i class="fa fa-star"></i></a>
+        {% else %}
+        <a href="{{ path('tsd_gtd_project_star', {'id': project.id}) }}"><i class="fa fa-star-o"></i></a>
+        {% endif %}
+    </span>
     {% if project.actions is empty %}
         <span class="mark-done"><a href="{{ path('tsd_gtd_project_markdone', {'id': project.id}) }}"><i class="fa fa-check"></i></a></span>
     {% endif %}
@@ -17,7 +25,7 @@
     {% endfor %}
     <span class="date">{{project.created|date}}</span>
     {% if project.actions is empty %}
-        <span class="add"><a href="{{ path('tsd_gtd_action_add', {'project': project.id}) }}"><i class="fa fa-plus"></i></a></span>
+        <span class="add"><a href="{{ path('tsd_gtd_action_add', {'project_id': project.id}) }}"><i class="fa fa-plus"></i></a></span>
     {% else %}
         <span class="actions">{% if project.actions|length == 1 %} 1 action {% else %} {{ project.actions|length }} actions {% endif %}</span>
     {% endif %}

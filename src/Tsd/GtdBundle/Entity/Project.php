@@ -27,6 +27,10 @@ class Project
      * @ORM\Column(type="datetime")
      */
     private $created;
+    /**
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private $starred = 0;
     
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -180,35 +184,6 @@ class Project
         return $this->name;
     }
 
-    /**
-     * Set timeframe
-     *
-     * @param string $timeframe
-     * @return Project
-     */
-    public function setTimeframe($timeframe)
-    {
-        $this->timeframe = $timeframe;
-    
-        return $this;
-    }
-
-    /**
-     * Get timeframe
-     *
-     * @return string 
-     */
-    public function getTimeframe()
-    {
-        return $this->timeframe;
-    }
-
-    /**
-     * Add projectTags
-     *
-     * @param \Tsd\GtdBundle\Entity\ProjectTag $projectTags
-     * @return Project
-     */
     public function addProjectTag(\Tsd\GtdBundle\Entity\ProjectTag $projectTags)
     {
         $this->projectTags[] = $projectTags;
@@ -234,5 +209,51 @@ class Project
     public function getProjectTags()
     {
         return $this->projectTags;
+    }
+
+    /**
+     * Set timeframe
+     *
+     * @param \Tsd\GtdBundle\Entity\Timeframe $timeframe
+     * @return Project
+     */
+    public function setTimeframe(\Tsd\GtdBundle\Entity\Timeframe $timeframe)
+    {
+        $this->timeframe = $timeframe;
+    
+        return $this;
+    }
+
+    /**
+     * Get timeframe
+     *
+     * @return \Tsd\GtdBundle\Entity\Timeframe 
+     */
+    public function getTimeframe()
+    {
+        return $this->timeframe;
+    }
+
+    /**
+     * Set starred
+     *
+     * @param boolean $starred
+     * @return Project
+     */
+    public function setStarred($starred)
+    {
+        $this->starred = $starred;
+    
+        return $this;
+    }
+
+    /**
+     * Get starred
+     *
+     * @return boolean 
+     */
+    public function getStarred()
+    {
+        return $this->starred;
     }
 }

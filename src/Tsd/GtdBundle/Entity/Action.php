@@ -38,6 +38,10 @@ class Action
     private $created;
 
     /**
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private $starred = 0;
+    /**
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
@@ -202,5 +206,28 @@ class Action
     public function getContexts()
     {
         return $this->contexts;
+    }
+
+    /**
+     * Set starred
+     *
+     * @param boolean $starred
+     * @return Action
+     */
+    public function setStarred($starred)
+    {
+        $this->starred = $starred;
+    
+        return $this;
+    }
+
+    /**
+     * Get starred
+     *
+     * @return boolean 
+     */
+    public function getStarred()
+    {
+        return $this->starred;
     }
 }

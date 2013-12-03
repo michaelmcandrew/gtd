@@ -1,5 +1,12 @@
 <div class="item">
     <span class="mark-done"><a href="{{ path('tsd_gtd_action_markdone', {'id': action.id}) }}"><i class="fa fa-check"></i></a></span>
+    <span class="star">
+        {% if action.starred %}
+        <a href="{{ path('tsd_gtd_action_unstar', {'id': action.id}) }}"><i class="fa fa-star"></i></a>
+        {% else %}
+        <a href="{{ path('tsd_gtd_action_star', {'id': action.id}) }}"><i class="fa fa-star-o"></i></a>
+        {% endif %}
+    </span>
     <span class="view"><a href="{{ path('tsd_gtd_action_view', {'id': action.id}) }}">{{ action.description }}</a></span>
     <span class="edit"><a href="{{ path('tsd_gtd_action_edit', {'id': action.id}) }}"><i class="fa fa-pencil"></i></a></span>
     {# we don't want to display the project name if we are already in that project's context #}

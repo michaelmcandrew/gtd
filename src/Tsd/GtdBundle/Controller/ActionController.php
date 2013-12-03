@@ -26,6 +26,7 @@ class ActionController extends Controller{
             ->leftjoin('a.project', 'p')
             ->andwhere('p.timeframe = :timeframe OR p.id IS NULL')
             ->andwhere('a.completed IS NULL')
+            ->orderBy('a.created')
             ->setParameter('timeframe', $em->getRepository('TsdGtdBundle:Timeframe')->findOneByName('Current')->getId());
 
         // add context filters
@@ -34,7 +35,7 @@ class ActionController extends Controller{
 
         if($filter['method']=='OR'){
             $orX = $qb->expr()->orX();
-            $qb->join('a.contexts', 'c');
+            $qb->leftjoin('a.contexts', 'c');
             foreach($filter['tags'] as $tag => $on){
                 if($on){
                     $orX->add( $qb->expr()->orX($qb->expr()->eq('c.id', $tag)));
@@ -56,16 +57,24 @@ class ActionController extends Controller{
 
     /**
      * @Route("/add")
+     * @Route("/add/stuff/{id}", name="tsd_gtd_action_add_stuff")
      * @Template()
      */
-    public function addAction(Request $request){
+    public function addAction(Request $request, $id = null){
+
         $action = new Action();
-        if($request->get('project')){
-            $project = $this->getDoctrine()->getRepository('TsdGtdBundle:Project')->find($request->get('project'));
+
+        if($request->get('project_id')){
+            $project = $this->getDoctrine()->getRepository('TsdGtdBundle:Project')->find($request->get('project_id'));
             $action->setProject($project);
         }
-        $form = $this->createForm(new ActionType, $action);
 
+        if($id){
+            $stuff = $this->getDoctrine()->getRepository('TsdGtdBundle:Stuff')->find($id);
+            $action->setDescription($stuff->getDescription());
+        }
+
+        $form = $this->createForm(new ActionType, $action);
         $form->handleRequest($request);
 
         if($form->isValid()){
@@ -74,12 +83,43 @@ class ActionController extends Controller{
             $em->flush();
             $link = $this->generateUrl('tsd_gtd_action_view', array('id' => $action->getId()));
             $this->get('session')->getFlashBag()->add( 'notice', "'<a href='{$link}'>{$action->getDescription()}</a>' added.");
-            if ($form->get('save and new')->isClicked()) {
+            if($id) {
+                $stuff->setProcessed(new \DateTime);
+                $em->persist($stuff);
+                $em->flush();
+                return $this->redirect($this->generateUrl('tsd_gtd_stuff_process'));
+            }elseif($form->get('save and new')->isClicked()){
                 return $this->redirect($this->generateUrl('tsd_gtd_action_add'));
             }
             return $this->redirect($this->generateUrl('tsd_gtd_action_index'));
         }
         return array('form' => $form->createView());
+    }
+    /**
+     * @Route("/star/{id}")
+     */
+    public function starAction(Request $request, $id){
+        $action = $this->getdoctrine()->getrepository('TsdGtdBundle:Action')->find($id);
+        $action->setStarred(true);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($action);
+        $em->flush();
+        $link = $this->generateUrl('tsd_gtd_action_view', array('id' => $action->getId()));
+        $this->get('session')->getFlashBag()->add( 'notice', "'<a href='{$link}'>{$action->getDescription()}</a>' starred.");
+        return $this->redirect($this->generateUrl('tsd_gtd_action_index'));
+    }
+    /**
+     * @Route("/unstar/{id}")
+     */
+    public function unstarAction(Request $request, $id){
+        $action = $this->getDoctrine()->getRepository('TsdGtdBundle:Action')->find($id);
+        $action->setStarred(false);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($action);
+        $em->flush();
+        $link = $this->generateUrl('tsd_gtd_action_view', array('id' => $action->getId()));
+        $this->get('session')->getFlashBag()->add( 'notice', "'<a href='{$link}'>{$action->getDescription()}</a>' unstarred.");
+        return $this->redirect($this->generateUrl('tsd_gtd_action_index'));
     }
     /**
      * @Route("/view/{id}")
@@ -117,7 +157,7 @@ class ActionController extends Controller{
         $em->flush();
         $link = $this->generateUrl('tsd_gtd_action_view', array('id' => $action->getId()));
         $this->get('session')->getFlashBag()->add( 'notice', "'<a href='{$link}'>{$action->getDescription()}</a>' marked as done.");
-        return $this->redirect($this->generateUrl('tsd_gtd_action_index'));
+        return $this->redirect($request->headers->get('referer'));
     }
     /**
      * @Route("/markNotDone/{id}")
@@ -130,7 +170,7 @@ class ActionController extends Controller{
         $em->flush();
         $link = $this->generateUrl('tsd_gtd_action_view', array('id' => $action->getId()));
         $this->get('session')->getFlashBag()->add( 'notice', "'<a href='{$link}'>{$action->getDescription()}</a>' marked as not done");
-        return $this->redirect($this->generateUrl('tsd_gtd_action_index'));
+        return $this->redirect($request->headers->get('referer'));
     }
 }
 
