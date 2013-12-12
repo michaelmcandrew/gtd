@@ -9,6 +9,7 @@ class Builder extends ContainerAware
     public function mainMenu(FactoryInterface $factory, array $options)
     {
         $menu = $factory->createItem('root');
+        $menu->setChildrenAttributes(array('class' => 'nav navbar-nav'));
 
         $menu->addChild('Actions', array('route' => 'tsd_gtd_action_index'));
         // $menu['Actions']->addChild('Add action', array( 'route' => 'tsd_gtd_action_add'));
