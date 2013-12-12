@@ -82,7 +82,7 @@ class ActionController extends Controller{
             $em->persist($action);
             $em->flush();
             $link = $this->generateUrl('tsd_gtd_action_view', array('id' => $action->getId()));
-            $this->get('session')->getFlashBag()->add( 'notice', "'<a href='{$link}'>{$action->getDescription()}</a>' added.");
+            $this->get('session')->getFlashBag()->add( 'info', "'<a href='{$link}'>{$action->getDescription()}</a>' added.");
             if($id) {
                 $stuff->setProcessed(new \DateTime);
                 $em->persist($stuff);
@@ -105,7 +105,7 @@ class ActionController extends Controller{
         $em->persist($action);
         $em->flush();
         $link = $this->generateUrl('tsd_gtd_action_view', array('id' => $action->getId()));
-        $this->get('session')->getFlashBag()->add( 'notice', "'<a href='{$link}'>{$action->getDescription()}</a>' starred.");
+        $this->get('session')->getFlashBag()->add( 'info', "'<a href='{$link}'>{$action->getDescription()}</a>' starred.");
         return $this->redirect($this->generateUrl('tsd_gtd_action_index'));
     }
     /**
@@ -118,7 +118,7 @@ class ActionController extends Controller{
         $em->persist($action);
         $em->flush();
         $link = $this->generateUrl('tsd_gtd_action_view', array('id' => $action->getId()));
-        $this->get('session')->getFlashBag()->add( 'notice', "'<a href='{$link}'>{$action->getDescription()}</a>' unstarred.");
+        $this->get('session')->getFlashBag()->add( 'info', "'<a href='{$link}'>{$action->getDescription()}</a>' unstarred.");
         return $this->redirect($this->generateUrl('tsd_gtd_action_index'));
     }
     /**
@@ -156,7 +156,7 @@ class ActionController extends Controller{
         $em->persist($action);
         $em->flush();
         $link = $this->generateUrl('tsd_gtd_action_view', array('id' => $action->getId()));
-        $this->get('session')->getFlashBag()->add( 'notice', "'<a href='{$link}'>{$action->getDescription()}</a>' marked as done.");
+        $this->get('session')->getFlashBag()->add( 'info', "'<a href='{$link}'>{$action->getDescription()}</a>' marked as done.");
         return $this->redirect($request->headers->get('referer'));
     }
     /**
@@ -169,7 +169,7 @@ class ActionController extends Controller{
         $em->persist($action);
         $em->flush();
         $link = $this->generateUrl('tsd_gtd_action_view', array('id' => $action->getId()));
-        $this->get('session')->getFlashBag()->add( 'notice', "'<a href='{$link}'>{$action->getDescription()}</a>' marked as not done");
+        $this->get('session')->getFlashBag()->add( 'info', "'<a href='{$link}'>{$action->getDescription()}</a>' marked as not done");
         return $this->redirect($request->headers->get('referer'));
     }
 }

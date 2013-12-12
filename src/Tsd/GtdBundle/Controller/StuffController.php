@@ -23,9 +23,7 @@ class StuffController extends Controller
      */
     public function processAction(Request $request)
     {
-        if($stuff = $this->getDoctrine()->getRepository('TsdGtdBundle:Stuff')->findOneByProcessed(null, array('created' => 'ASC'))){
-            //nothing
-        }else{
+        if(!$stuff = $this->getDoctrine()->getRepository('TsdGtdBundle:Stuff')->findOneByProcessed(null, array('created' => 'ASC'))){
             $stuff = new stuff;
         }
 
@@ -44,7 +42,7 @@ class StuffController extends Controller
                 $stuff->setProcessed(new \DateTime);
                 $em->persist($stuff);
                 $em->flush();
-                $this->get('session')->getFlashBag()->add( 'notice', "'{$stuff->getDescription()}' processed (already done).");
+                $this->get('session')->getFlashBag()->add( 'info', "'{$stuff->getDescription()}' processed (already done).");
                 return $this->redirect($this->generateUrl('tsd_gtd_stuff_process'));
             }elseif($form->get('Add as action')->isClicked()){
                 return $this->redirect($this->generateUrl('tsd_gtd_action_add_stuff', array('id' => $stuff->getId())));
@@ -73,9 +71,9 @@ public function addAction(Request $request){
         $em = $this->getDoctrine()->getManager();
         $em->persist($stuff);
         $em->flush();
-        // if($form->get('save and new')->isClicked()){
-        //     return $this->redirect($this->generateUrl('tsd_gtd_stuff_add'));
-        // }
+        if($form->get('save and new')->isClicked()){
+            return $this->redirect($this->generateUrl('tsd_gtd_stuff_add'));
+        }
         return $this->redirect($this->generateUrl('tsd_gtd_stuff_index'));
     }
     return array('form' => $form->createView());

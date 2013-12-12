@@ -2,7 +2,7 @@
 {% block heading %}
     {{ project.name }}
     <a href="{{ path('tsd_gtd_project_edit', {'id': project.id}) }}"><i class="fa fa-pencil"></i></a>
-    <a href="{{ path('tsd_gtd_action_add', {'project': project.id}) }}"><i class="fa fa-plus"></i></a>
+    <a href="{{ path('tsd_gtd_action_add', {'project_id': project.id}) }}"><i class="fa fa-plus"></i></a>
 {% endblock %}
 {% block content %}
 <div class="list">

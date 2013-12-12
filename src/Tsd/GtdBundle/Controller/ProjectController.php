@@ -85,7 +85,7 @@ class ProjectController extends Controller{
             $em->persist($project);
             $em->flush();
             $link = $this->generateUrl('tsd_gtd_project_view', array('id' => $project->getId()));
-            $this->get('session')->getFlashBag()->add( 'notice', "'<a href='{$link}'>{$project->getName()}</a>' added.");
+            $this->get('session')->getFlashBag()->add( 'info', "'<a href='{$link}'>{$project->getName()}</a>' added.");
             if($id) {
                 $stuff->setProcessed(new \DateTime);
                 $em->persist($stuff);
@@ -140,7 +140,7 @@ class ProjectController extends Controller{
         $em->persist($project);
         $em->flush();
         $link = $this->generateUrl('tsd_gtd_project_view', array('id' => $project->getId()));
-        $this->get('session')->getFlashBag()->add( 'notice', "'<a href='{$link}'>{$project->getName()}</a>' starred.");
+        $this->get('session')->getFlashBag()->add( 'info', "'<a href='{$link}'>{$project->getName()}</a>' starred.");
         return $this->redirect($this->generateUrl('tsd_gtd_project_index'));
     }
     /**
@@ -153,7 +153,7 @@ class ProjectController extends Controller{
         $em->persist($project);
         $em->flush();
         $link = $this->generateUrl('tsd_gtd_project_view', array('id' => $project->getId()));
-        $this->get('session')->getFlashBag()->add( 'notice', "'<a href='{$link}'>{$project->getName()}</a>' unstarred.");
+        $this->get('session')->getFlashBag()->add( 'info', "'<a href='{$link}'>{$project->getName()}</a>' unstarred.");
         return $this->redirect($this->generateUrl('tsd_gtd_project_index'));
     }
     /**
@@ -166,7 +166,7 @@ class ProjectController extends Controller{
         $em->persist($project);
         $em->flush();
         $link = $this->generateUrl('tsd_gtd_project_view', array('id' => $project->getId()));
-        $this->get('session')->getFlashBag()->add( 'notice', "'<a href='{$link}'>{$project->getName()}</a>' marked as done.");
+        $this->get('session')->getFlashBag()->add( 'info', "'<a href='{$link}'>{$project->getName()}</a>' marked as done.");
         return $this->redirect($request->headers->get('referer'));
     }
     /**
@@ -179,7 +179,7 @@ class ProjectController extends Controller{
         $em->persist($project);
         $em->flush();
         $link = $this->generateUrl('tsd_gtd_project_view', array('id' => $project->getId()));
-        $this->get('session')->getFlashBag()->add( 'notice', "'<a href='{$link}'>{$project->getName()}</a>' marked as not done");
+        $this->get('session')->getFlashBag()->add( 'info', "'<a href='{$link}'>{$project->getName()}</a>' marked as not done");
         return $this->redirect($request->headers->get('referer'));
     }
 }

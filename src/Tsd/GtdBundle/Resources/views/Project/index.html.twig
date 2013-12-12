@@ -5,10 +5,9 @@
 {% from 'TsdGtdBundle::filter.html.twig' import filter %}
 {{ filter(tags, 'project') }}
 
-<div class="list">
+<table class="table">
 {% for project in projects %}
-    <div class="item">
-    <span class="star">
+<tr><td>    <span class="star">
         {% if project.starred %}
         <a href="{{ path('tsd_gtd_project_unstar', {'id': project.id}) }}"><i class="fa fa-star"></i></a>
         {% else %}
@@ -21,7 +20,7 @@
     <span class="view"><a href="{{ path('tsd_gtd_project_view', {'id': project.id}) }}">{{ project.name }}</a></span>
     <span class="edit"><a href="{{ path('tsd_gtd_project_edit', {'id': project.id}) }}"><i class="fa fa-pencil"></i></a></span>
     {% for projectTag in project.projectTags %}
-        <span class="on">{{ projectTag.name }}</span>
+        <span class="label label-default">{{ projectTag.name }}</span>
     {% endfor %}
     <span class="date">{{project.created|date}}</span>
     {% if project.actions is empty %}
@@ -29,7 +28,7 @@
     {% else %}
         <span class="actions">{% if project.actions|length == 1 %} 1 action {% else %} {{ project.actions|length }} actions {% endif %}</span>
     {% endif %}
-    </div>
+</td></tr>
 {% endfor %}
-</div>
+</table>
 {% endblock %}
