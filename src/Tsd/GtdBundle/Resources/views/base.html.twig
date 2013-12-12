@@ -1,31 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
 <title>{% block title %}GTD{% endblock %}</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/bundles/tsdgtd/font-awesome/css/font-awesome.min.css" />
+<link rel="stylesheet" href="/bundles/tsdgtd/bootstrap/css/bootstrap.min.css" />
 </head>
-{% stylesheets '@TsdGtdBundle/Resources/public/css/*' filter='cssrewrite' %}
-<link rel="stylesheet" href="{{ asset_url }}" />
-{% endstylesheets %}
-<link rel="stylesheet" href="/bundles/tsdgtd/font-awesome-4.0.3/css/font-awesome.min.css" />
 <body>
-<nav><div id="logo">GTD</div>{{ knp_menu_render('TsdGtdBundle:Builder:mainMenu') }}</nav>
-
+<nav class="navbar navbar-default">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <div class="navbar-brand">GTD</div>
+  </div>
+    <div class="collapse navbar-collapse" id="navbar">
+        {{ knp_menu_render('TsdGtdBundle:Builder:mainMenu', {'currentClass': 'active'}) }}
+    </div>
+</nav>
 {% for type, messages in app.session.flashbag.all() %}
-    {% for message in messages %}
-        <div class="flash flash-{{ type }}">
-        {{ message|raw }}
-        </div>
-    {% endfor %}
+{% for message in messages %}
+<div class="alert alert-{{ type }} alert-dismissable">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    {{ message|raw }}
+</div>
+{% endfor %}
 {% endfor %}
 
 <div id="content">
     <h1>{% block heading %}Heading{% endblock %} </h1>{% block content %}
-{% endblock %}
+    {% endblock %}
 </div>
 <div id="footer">
-{% block footer %}
-{% endblock %}
+    {% block footer %}
+    {% endblock %}
 </div>
+<script src="/bundles/tsdgtd/jquery/jquery.min.js"></script>
+<script src="/bundles/tsdgtd/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
