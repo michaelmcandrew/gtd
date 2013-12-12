@@ -4,16 +4,14 @@
     <span class="method">
         {% set f = app.session.get(entity).filter|default({}) %}
         {# if app.session.project.filter.method == 'OR' #}
-        {% if f.method is defined %}
-        {% if f.method == 'OR' %}
+        {% if f.method is defined and f.method == 'OR' %}
         <span class="on">OR</span>
-        <span class="off"><a href="{{path('tsd_gtd_filter_update', {'entity':entity, 'name': 'method', 'value': 'AND'})}}">AND</a></span>
-        {% elseif f.method == 'AND' %}
-        <span class="off"><a href="{{path('tsd_gtd_filter_update', {'entity':entity, 'name': 'method', 'value': 'OR'})}}">OR</a></span>
-        <span class="on">AND</span>
-        {% endif %}
         {% else %}
         <span class="off"><a href="{{path('tsd_gtd_filter_update', {'entity':entity, 'name': 'method', 'value': 'OR'})}}">OR</a></span>
+        {% endif %}
+        {% if f.method is defined and f.method == 'AND' %}
+        <span class="on">AND</span>
+        {% else %}
         <span class="off"><a href="{{path('tsd_gtd_filter_update', {'entity':entity, 'name': 'method', 'value': 'AND'})}}">AND</a></span>
         {% endif %}
     </span>
