@@ -15,9 +15,12 @@ class ActionType extends AbstractType
                 'required' => false,
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('p')->where('p.completed IS NULL');
-                }
-            ))
-            ->add('contexts')
+                }))
+            ->add('contexts', 'entity', array(
+                'class' => 'TsdGtdBundle:Context',
+                'required' => true,
+                'multiple' => true,
+                'expanded' => true))
             ->add('save', 'submit')
             ->add('save and new', 'submit');
     }

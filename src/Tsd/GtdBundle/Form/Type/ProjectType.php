@@ -10,7 +10,11 @@ class ProjectType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('projectTags')
+            ->add('projectTags', 'entity', array(
+                'class' => 'TsdGtdBundle:ProjectTag',
+                'required' => true,
+                'multiple' => true,
+                'expanded' => true))
             ->add('timeframe')
             ->add('save', 'submit')
             ->add('save and new', 'submit');
