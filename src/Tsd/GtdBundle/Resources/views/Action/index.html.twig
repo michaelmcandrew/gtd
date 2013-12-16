@@ -3,9 +3,11 @@
 {% block content %}
 {% from 'TsdGtdBundle::filter.html.twig' import filter %}
 {{ filter(contexts, 'action') }}
-<div class="list">
+<table class="table">
 {% for action in actions %}
+    <tr><td>
     {% include 'TsdGtdBundle:Action:item.html.twig' %}
+    <td><tr>
 {% endfor %}
-</div>
+</table>
 {% endblock %}

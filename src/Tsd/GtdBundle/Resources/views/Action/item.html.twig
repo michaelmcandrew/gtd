@@ -1,5 +1,5 @@
 <div class="item">
-    <p><span class="mark-done"><a href="{{ path('tsd_gtd_action_markdone', {'id': action.id}) }}"><i class="fa fa-check"></i></a></span>
+    <span class="mark-done"><a href="{{ path('tsd_gtd_action_markdone', {'id': action.id}) }}"><i class="fa fa-check"></i></a></span>
     <span class="star">
         {% if action.starred %}
         <a href="{{ path('tsd_gtd_action_unstar', {'id': action.id}) }}"><i class="fa fa-star"></i></a>
@@ -16,5 +16,5 @@
     {% for context in action.contexts %}
         <span class="label label-default">{{ context.name }}</span>
     {% endfor %}
-    <span class="date">{{action.created|date}}</span></p>
+    <span class="date">{{action.created|date}}</span>
 </div>

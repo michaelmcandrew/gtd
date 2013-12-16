@@ -1,0 +1,31 @@
+{% block form_row %}
+{% spaceless %}
+    <div class="form-group">
+        <div class="col-sm-2">
+            {{ form_label(form) }}
+        </div>
+        <div class="controls col-sm-10">
+            {{ form_widget(form, {"attr": {"class":"form-control"}}) }}
+            {{ form_errors(form) }}
+        </div>
+    </div>
+{% endspaceless %}
+{% endblock form_row %}
+
+{% use 'form_div_layout.html.twig' with form as base_form %}
+
+{% block form %}
+<div class="form-horizontal">
+    {{ block('base_form') }}
+</div>
+{% endblock %}
+
+{% block button_row %}
+{% spaceless %}
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+        {{ form_widget(form, {"attr": {"class":"form-control"}}) }}
+    </div>
+</div>
+{% endspaceless %}
+{% endblock button_row %}

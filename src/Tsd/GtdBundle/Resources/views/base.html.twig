@@ -1,38 +1,47 @@
 <!DOCTYPE html>
-<html>
+ <html lang="en">
 <head>
 <title>{% block title %}GTD{% endblock %}</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/bundles/tsdgtd/font-awesome/css/font-awesome.min.css" />
 <link rel="stylesheet" href="/bundles/tsdgtd/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/bundles/tsdgtd/style.css" />
 </head>
 <body>
-<nav class="navbar navbar-default">
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    <div class="navbar-brand">GTD</div>
-  </div>
-    <div class="collapse navbar-collapse" id="navbar">
-        {{ knp_menu_render('TsdGtdBundle:Builder:mainMenu', {'currentClass': 'active'}) }}
+<header class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="navbar-brand">GTD</div>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar">
+            {{ knp_menu_render('TsdGtdBundle:Builder:mainMenu', {'currentClass': 'active'}) }}
+        </div>
     </div>
-</nav>
-{% for type, messages in app.session.flashbag.all() %}
-{% for message in messages %}
-<div class="alert alert-{{ type }} alert-dismissable">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    {{ message|raw }}
+</header>
+<div id="alerts">
+    <div class="container">
+        <div class="row">
+            {% for type, messages in app.session.flashbag.all() %}
+            {% for message in messages %}
+            <div class="alert alert-{{ type }} alert-dismissable col-sm-offset-7 col-sm-5">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message|raw }}
+            </div>
+            {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
 </div>
-{% endfor %}
-{% endfor %}
-
-<div id="content">
-    <h1>{% block heading %}Heading{% endblock %} </h1>{% block content %}
+<div id="content" class="container">
+    <h1>{% block heading %}Heading{% endblock %} </h1>
+    {% block content %}
     {% endblock %}
 </div>
 <div id="footer">

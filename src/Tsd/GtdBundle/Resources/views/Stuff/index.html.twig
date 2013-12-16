@@ -1,12 +1,21 @@
 {% extends "TsdGtdBundle::base.html.twig" %}
 {% block heading %}Stuff{% endblock %}
 {% block content %}
-<div class="list">
-{% for stuff in stuffs %}
-    <div class="item">
-        <span class="description">{{ stuff.description }}</span>
-        <span class="date">{{ stuff.created|date }}</span>
+<div class="row">
+    <div class="col-sm-6 box">
+        <h2>Add stuff</h2>
+        {{ form(form) }}
     </div>
-{% endfor %}
+    <div class="col-sm-6">
+            <table class="table">
+            {% for stuff in stuffs %}
+                <tr><td>
+                        <span class="description">{{ stuff.description }}</span> <span class="date">{{ stuff.created|date }}</span>
+                </td></tr>
+            {% endfor %}
+            </table>
+            <p><a href="{{ path('tsd_gtd_stuff_process') }}">Process stuff</a></p>
+    </div>
 </div>
+
 {% endblock %}
