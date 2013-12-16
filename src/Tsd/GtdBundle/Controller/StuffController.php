@@ -62,6 +62,7 @@ class StuffController extends Controller
  * @Template()
  */
 public function addAction(Request $request){
+    $stuffs='';
     $stuff = new Stuff();
     $form = $this->createForm(new StuffType, $stuff);
 
@@ -76,17 +77,31 @@ public function addAction(Request $request){
         }
         return $this->redirect($this->generateUrl('tsd_gtd_stuff_index'));
     }
-    return array('form' => $form->createView());
+    return array('stuffs' => $stuffs, 'form' => $form->createView());
 }
 
 /**
  * @Route("")
  * @Template()
  */
-public function indexAction()
+public function indexAction(Request $request)
 {
+    // Get all stuff
     $stuffs = $this->getDoctrine()->getRepository('TsdGtdBundle:Stuff')->findByProcessed(null);
-    return array('stuffs' => $stuffs);
+
+    //Get a form to add new stuff
+    $stuff = new Stuff();
+    $form = $this->createForm(new StuffType, $stuff);
+
+    $form->handleRequest($request);
+
+    if($form->isValid()){
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($stuff);
+        $em->flush();
+        return $this->redirect($this->generateUrl('tsd_gtd_stuff_index'));
+    }
+    return array('stuffs' => $stuffs, 'form' => $form->createView());
 }
 
 }

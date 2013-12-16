@@ -11,8 +11,7 @@ class StuffType extends AbstractType
     {
         $builder
             ->add('description')
-            ->add('save', 'submit')
-            ->add('save and new', 'submit');
+            ->add('save', 'submit');
     }
 
     public function getName()
