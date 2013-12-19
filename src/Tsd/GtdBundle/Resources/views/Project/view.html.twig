@@ -1,13 +1,15 @@
 {% extends "TsdGtdBundle::base.html.twig" %}
 {% block heading %}
-    {{ project.name }}
-    <a href="{{ path('tsd_gtd_project_edit', {'id': project.id}) }}"><i class="fa fa-pencil"></i></a>
-    <a href="{{ path('tsd_gtd_action_add', {'project_id': project.id}) }}"><i class="fa fa-plus"></i></a>
+{{ project.name }}
+<a href="{{ path('tsd_gtd_project_edit', {'id': project.id}) }}"><i class="fa fa-pencil"></i></a>
+<a href="{{ path('tsd_gtd_action_add', {'project_id': project.id}) }}"><i class="fa fa-plus"></i></a>
 {% endblock %}
 {% block content %}
-<div class="list">
-{% for action in project.actions %}
-    {% include 'TsdGtdBundle:Action:item.html.twig' %}
-{% endfor %}
-</div>
+<table class="table">
+    {% for action in project.actions %}
+    <tr><td>
+            {% include 'TsdGtdBundle:Action:item.html.twig' %}
+    </td></tr>
+    {% endfor %}
+</table>
 {% endblock %}

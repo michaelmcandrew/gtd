@@ -17,7 +17,8 @@
     {% if project.actions is empty %}
         <span class="mark-done"><a href="{{ path('tsd_gtd_project_markdone', {'id': project.id}) }}"><i class="fa fa-check"></i></a></span>
     {% endif %}
-    <span class="view"><a href="{{ path('tsd_gtd_project_view', {'id': project.id}) }}">{{ project.name }}</a></span>
+    <span class="view">{{ project.name }}</span>
+    <span class="view"><a href="{{ path('tsd_gtd_project_view', {'id': project.id}) }}"><i class="fa fa-list-alt"></i></span>
     <span class="edit"><a href="{{ path('tsd_gtd_project_edit', {'id': project.id}) }}"><i class="fa fa-pencil"></i></a></span>
     {% for projectTag in project.projectTags %}
         <span class="label label-default">{{ projectTag.name }}</span>

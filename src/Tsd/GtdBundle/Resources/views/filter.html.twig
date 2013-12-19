@@ -5,22 +5,22 @@
         {% set f = app.session.get(entity).filter|default({}) %}
         {# if app.session.project.filter.method == 'OR' #}
         {% if f.method is defined and f.method == 'OR' %}
-        <span class="on">OR</span>
+        <span class="label label-success">OR</span>
         {% else %}
-        <span class="off"><a href="{{path('tsd_gtd_filter_update', {'entity':entity, 'name': 'method', 'value': 'OR'})}}">OR</a></span>
+        <span class="label"><a href="{{path('tsd_gtd_filter_update', {'entity':entity, 'name': 'method', 'value': 'OR'})}}">OR</a></span>
         {% endif %}
         {% if f.method is defined and f.method == 'AND' %}
-        <span class="on">AND</span>
+        <span class="label label-success">AND</span>
         {% else %}
-        <span class="off"><a href="{{path('tsd_gtd_filter_update', {'entity':entity, 'name': 'method', 'value': 'AND'})}}">AND</a></span>
+        <span class="label"><a href="{{path('tsd_gtd_filter_update', {'entity':entity, 'name': 'method', 'value': 'AND'})}}">AND</a></span>
         {% endif %}
     </span>
     <span class="tags">
     {% for tag in tags %}
     {% if f.tags[tag.id]|default(0) == 1 %}
-    <span class="on"><a href="{{path('tsd_gtd_filter_update', {'entity':entity, 'name': ('tags.'~tag.id), 'value': 0})}}">{{ tag.name }}</a></span>
+    <span class="label label-success"><a href="{{path('tsd_gtd_filter_update', {'entity':entity, 'name': ('tags.'~tag.id), 'value': 0})}}">{{ tag.name }}</a></span>
     {% else %}
-    <span class="off"><a href="{{path('tsd_gtd_filter_update', {'entity':entity, 'name': ('tags.'~tag.id), 'value': 1})}}">{{ tag.name }}</a></span>
+    <span class="label"><a href="{{path('tsd_gtd_filter_update', {'entity':entity, 'name': ('tags.'~tag.id), 'value': 1})}}">{{ tag.name }}</a></span>
     {% endif %}
     {% endfor %}
     </span>

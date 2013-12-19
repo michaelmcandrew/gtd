@@ -20,6 +20,9 @@ body{
     margin-right: 0;
 }
 
+.label-success a {
+    color:white;
+}
 /* .filter{ */
 /*     padding:10px; */
 /*     border: 4px solid #DDD; */

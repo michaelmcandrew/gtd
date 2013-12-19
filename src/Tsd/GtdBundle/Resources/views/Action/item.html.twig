@@ -1,20 +1,18 @@
-<div class="item">
-    <span class="mark-done"><a href="{{ path('tsd_gtd_action_markdone', {'id': action.id}) }}"><i class="fa fa-check"></i></a></span>
-    <span class="star">
-        {% if action.starred %}
-        <a href="{{ path('tsd_gtd_action_unstar', {'id': action.id}) }}"><i class="fa fa-star"></i></a>
-        {% else %}
-        <a href="{{ path('tsd_gtd_action_star', {'id': action.id}) }}"><i class="fa fa-star-o"></i></a>
-        {% endif %}
-    </span>
-    <span class="view"><a href="{{ path('tsd_gtd_action_view', {'id': action.id}) }}">{{ action.description }}</a></span>
-    <span class="edit"><a href="{{ path('tsd_gtd_action_edit', {'id': action.id}) }}"><i class="fa fa-pencil"></i></a></span>
-    {# we don't want to display the project name if we are already in that project's context #}
-    {% if action.project != project|default(null) %}
-        <span class="view"><a href="{{ path('tsd_gtd_project_view', {'id': action.project.id}) }}">{{ action.project.name }}</a></span>
+<span class="mark-done"><a href="{{ path('tsd_gtd_action_markdone', {'id': action.id}) }}"><i class="fa fa-check"></i></a></span>
+<span class="star">
+    {% if action.starred %}
+    <a href="{{ path('tsd_gtd_action_unstar', {'id': action.id}) }}"><i class="fa fa-star"></i></a>
+    {% else %}
+    <a href="{{ path('tsd_gtd_action_star', {'id': action.id}) }}"><i class="fa fa-star-o"></i></a>
     {% endif %}
-    {% for context in action.contexts %}
-        <span class="label label-default">{{ context.name }}</span>
-    {% endfor %}
-    <span class="date">{{action.created|date}}</span>
-</div>
+</span>
+<span class="view">{{ action.description }}</span>
+<span class="edit"><a href="{{ path('tsd_gtd_action_edit', {'id': action.id}) }}"><i class="fa fa-pencil"></i></a></span>
+{# we don't want to display the project name if we are already in that project's context #}
+{% if action.project != project|default(null) %}
+<span class="view"><a href="{{ path('tsd_gtd_project_view', {'id': action.project.id}) }}">{{ action.project.name }}</a></span>
+{% endif %}
+{% for context in action.contexts %}
+<span class="label label-default">{{ context.name }}</span>
+{% endfor %}
+<span class="date">{{action.created|date}}</span>
