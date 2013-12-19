@@ -10,7 +10,8 @@ class StuffType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('description')
+            ->add('description', 'textarea', array(
+                'attr' => array('autofocus'=>true)))
             ->add('save', 'submit');
     }
 

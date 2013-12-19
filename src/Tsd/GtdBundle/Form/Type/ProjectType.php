@@ -9,7 +9,8 @@ class ProjectType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
+            ->add('name', 'textarea', array(
+                'attr' => array('autofocus'=>true)))
             ->add('projectTags', 'entity', array(
                 'class' => 'TsdGtdBundle:ProjectTag',
                 'required' => true,

@@ -9,7 +9,8 @@ class ActionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('description')
+        $builder->add('description', 'textarea', array(
+                'attr' => array('autofocus'=>true)))
             ->add( 'project', 'entity', array(
                 'class' => 'TsdGtdBundle:Project',
                 'required' => false,
