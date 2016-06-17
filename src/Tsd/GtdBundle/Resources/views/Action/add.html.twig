@@ -2,6 +2,7 @@
 
 {% block title %} Add action {%if project is defined%}
     ({{project.name}})
+    
     {%endif%}
 {% endblock %}
 
@@ -13,5 +14,10 @@
 
 
 {% block content %}
+    <p>
+        <a href="{{ path('tsd_gtd_action_add', {'project_id': project.id}) }}"><i class="fa fa-plus"></i> another action</a>
+    </p>
+    <p><strong>Project notes</strong></p><p> {{project.notes|nl2br}}</p>
     {{ form(form) }}
+    
 {% endblock %}
