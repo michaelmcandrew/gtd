@@ -1,4 +1,7 @@
 {% extends "TsdGtdBundle::base.html.twig" %}
+{% block title %}
+Actions
+{% endblock %}
 {% block heading %}Actions <a href="{{ path('tsd_gtd_action_add') }}"><i class="fa fa-plus"></i></a>{% endblock %}
 {% block content %}
 {% from 'TsdGtdBundle::filter.html.twig' import filter %}

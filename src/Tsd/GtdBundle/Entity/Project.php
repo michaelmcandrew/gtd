@@ -22,6 +22,10 @@ class Project
      * @ORM\Column(type="text")
      */
     protected $name;
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $notes;
 
     /**
      * @ORM\Column(type="datetime")
@@ -84,6 +88,28 @@ class Project
     public function getName()
     {
         return $this->name;
+    }
+    /**
+     * Set notes
+     *
+     * @param string $notes
+     * @return Project
+     */
+    public function setNotes($notes)
+    {
+        $this->notes = $notes;
+    
+        return $this;
+    }
+
+    /**
+     * Get notes
+     *
+     * @return string 
+     */
+    public function getNotes()
+    {
+        return $this->notes;
     }
 
     /**

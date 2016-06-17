@@ -65,7 +65,7 @@ class ActionController extends Controller{
         $action = new Action();
 
         if($request->get('project_id')){
-            $project = $this->getDoctrine()->getRepository('TsdGtdBundle:Project')->find($request->get('project_id'));
+            $templateVariables['project'] = $project = $this->getDoctrine()->getRepository('TsdGtdBundle:Project')->find($request->get('project_id'));
             $action->setProject($project);
         }
 
@@ -93,7 +93,10 @@ class ActionController extends Controller{
             }
             return $this->redirect($this->generateUrl('tsd_gtd_action_index'));
         }
-        return array('form' => $form->createView());
+        
+        $templateVariables['form'] = $form->createView();
+        return $templateVariables;
+        
     }
     /**
      * @Route("/star/{id}")
@@ -173,4 +176,3 @@ class ActionController extends Controller{
         return $this->redirect($request->headers->get('referer'));
     }
 }
-

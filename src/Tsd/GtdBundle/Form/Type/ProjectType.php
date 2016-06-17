@@ -11,6 +11,10 @@ class ProjectType extends AbstractType
         $builder
             ->add('name', 'textarea', array(
                 'attr' => array('autofocus'=>true)))
+            ->add('notes', 'textarea', array(
+                'attr' => array(
+                    'rows'=>18),    
+                'required' => false))
             ->add('projectTags', 'entity', array(
                 'class' => 'TsdGtdBundle:ProjectTag',
                 'required' => true,

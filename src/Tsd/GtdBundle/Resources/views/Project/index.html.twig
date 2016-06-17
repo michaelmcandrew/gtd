@@ -1,35 +1,72 @@
 {% extends "TsdGtdBundle::base.html.twig" %}
-{% block heading %}<h1>Projects <a href="{{ path('tsd_gtd_project_add') }}"><i class="fa fa-plus"></i></a></h1>{% endblock %}
+{% block title %}
+    Projects
+{% endblock %}
+{% block heading %}
+    <h1>Projects
+        <a href="{{ path('tsd_gtd_project_add') }}">
+            <i class="fa fa-plus"></i>
+        </a>
+    </h1>
+{% endblock %}
 {% block content %}
 
-{% from 'TsdGtdBundle::filter.html.twig' import filter %}
-{{ filter(tags, 'project') }}
+    {% from 'TsdGtdBundle::filter.html.twig' import filter %}
+    {{ filter(tags, 'project') }}
 
-<table class="table">
-{% for project in projects %}
-<tr><td>    <span class="star">
-        {% if project.starred %}
-        <a href="{{ path('tsd_gtd_project_unstar', {'id': project.id}) }}"><i class="fa fa-star"></i></a>
-        {% else %}
-        <a href="{{ path('tsd_gtd_project_star', {'id': project.id}) }}"><i class="fa fa-star-o"></i></a>
-        {% endif %}
-    </span>
-    {% if project.actions is empty %}
-        <span class="mark-done"><a href="{{ path('tsd_gtd_project_markdone', {'id': project.id}) }}"><i class="fa fa-check"></i></a></span>
-    {% endif %}
-    <span class="view">{{ project.name }}</span>
-    <span class="view"><a href="{{ path('tsd_gtd_project_view', {'id': project.id}) }}"><i class="fa fa-list-alt"></i></span>
-    <span class="edit"><a href="{{ path('tsd_gtd_project_edit', {'id': project.id}) }}"><i class="fa fa-pencil"></i></a></span>
-    {% for projectTag in project.projectTags %}
-        <span class="label label-default">{{ projectTag.name }}</span>
-    {% endfor %}
-    <span class="date">{{project.created|date}}</span>
-    {% if project.actions is empty %}
-        <span class="add"><a href="{{ path('tsd_gtd_action_add', {'project_id': project.id}) }}"><i class="fa fa-plus"></i></a></span>
-    {% else %}
-        <span class="actions">{% if project.actions|length == 1 %} 1 action {% else %} {{ project.actions|length }} actions {% endif %}</span>
-    {% endif %}
-</td></tr>
-{% endfor %}
-</table>
-{% endblock %}
+    <table class="table">
+        {% for project in projects %}
+            <tr>
+                <td>
+                    <span class="star">
+                        {% if project.starred %}
+                            <a href="{{ path('tsd_gtd_project_unstar', {'id': project.id}) }}">
+                                <i class="fa fa-star"></i>
+                            </a>
+                        {% else %}
+                            <a href="{{ path('tsd_gtd_project_star', {'id': project.id}) }}">
+                                <i class="fa fa-star-o"></i>
+                            </a>
+                        {% endif %}
+                    </span>
+                    {% if project.actions is empty %}
+                        <span class="mark-done">
+                            <a href="{{ path('tsd_gtd_project_markdone', {'id': project.id}) }}">
+                                <i class="fa fa-check"></i>
+                            </a>
+                        </span>
+                    {% endif %}
+                    <span class="view">{{ project.name }}</span>
+                    <span class="view">
+                        <a href="{{ path('tsd_gtd_project_view', {'id': project.id}) }}">
+                            <i class="fa fa-list-alt"></i>
+                        </span>
+                        <span class="edit">
+                            <a href="{{ path('tsd_gtd_project_edit', {'id': project.id}) }}">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                        </span>
+                        {% for projectTag in project.projectTags %}
+                            <span class="label label-default">{{ projectTag.name }}</span>
+                        {% endfor %}
+                        <span class="date">{{project.created|date}}</span>
+                        {% if project.actions is not empty %}
+                            <span class="actions">
+                                {% if project.actions|length == 1 %}
+                                    1 action
+                                {% else %}
+                                    {{ project.actions|length }}
+                                    actions
+                                {% endif %}
+                            </span>
+                        {% endif %}
+                        <span class="add">
+                            <a href="{{ path('tsd_gtd_action_add', {'project_id': project.id}) }}">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        </span>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endblock %}

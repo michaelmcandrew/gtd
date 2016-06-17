@@ -1,5 +1,8 @@
 {% extends "TsdGtdBundle::base.html.twig" %}
-{% block heading %}Edit project{% endblock %}
+{% block title %}
+{{ project.name }}
+{% endblock %}
+{% block heading %}Edit project '{{ project.name }}'{% endblock %}
 {% block content %}
 {{ form(form) }}
 {% endblock %}

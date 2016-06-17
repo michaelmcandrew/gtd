@@ -12,7 +12,7 @@ use Tsd\GtdBundle\Entity\ProjectTag;
 use Tsd\GtdBundle\Form\Type\ProjectTagType;
 
     /**
-     * @Route("/projectTag")
+     * @Route("/projectTags")
      */
 class ProjectTagController extends Controller
 {

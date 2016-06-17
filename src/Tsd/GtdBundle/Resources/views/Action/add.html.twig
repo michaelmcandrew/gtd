@@ -1,5 +1,17 @@
 {% extends "TsdGtdBundle::base.html.twig" %}
-{% block heading %}Add action{% endblock %}
+
+{% block title %} Add action {%if project is defined%}
+    ({{project.name}})
+    {%endif%}
+{% endblock %}
+
+{% block heading %}Add action
+    {%if project is defined%}
+    to '<a href="{{ path('tsd_gtd_project_view', {'id': project.id}) }}">{{ project.name }}</a>'
+    {%endif%}
+{% endblock %}
+
+
 {% block content %}
-{{ form(form) }}
+    {{ form(form) }}
 {% endblock %}

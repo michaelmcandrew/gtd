@@ -128,7 +128,7 @@ class ProjectController extends Controller{
             $em->flush();
             return $this->redirect($this->generateurl('tsd_gtd_project_index'));
         }
-        return array('form' => $form->createView());
+        return array('form' => $form->createView(), 'project' => $project);
     }
     /**
      * @Route("/star/{id}")
