@@ -55,7 +55,7 @@ class ProjectController extends Controller{
             $qb->setParameter('timeframe', $em->getRepository('TsdGtdBundle:Timeframe')->findOneByName('Current')->getId());
         }
         $projects = $qb->getQuery()->getResult();
-        $tags = $em->getRepository('TsdGtdBundle:ProjectTag')->findAll();
+        $tags = $em->createQuery("SELECT p FROM TsdGtdBundle:projectTag p order by p.name")->getResult();
         return array('projects' => $projects, 'tags' => $tags);
     }
 

@@ -51,7 +51,9 @@ class ActionController extends Controller{
 
         }
         $actions = $qb->getQuery()->getResult();
-        $contexts = $em->getRepository('TsdGtdBundle:Context')->findAll();
+        $contexts = $em->createQuery("SELECT c FROM TsdGtdBundle:Context c order by c.name")->getResult();
+
+
         return array('actions' => $actions, 'contexts' => $contexts);
     }
 
